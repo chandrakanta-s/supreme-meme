@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { JSX, useEffect, useRef, useState } from "react";
-
+import data from "./data.js"
 /**
  * Single-file React + TypeScript app.
  *
@@ -28,38 +28,8 @@ type PopupItem = {
 
 export default function App(): JSX.Element {
   // Base messages (used as templates)
-  const templates: Omit<PopupItem, "id" | "progress">[] = [
-    {
-      title: "Call Blocked",
-      subtitle: "Incoming call blocked",
-      icon: "🚫",
-      body: "A call from this number was blocked.",
-      actionLabel: "Cancel",
-      callBlocked: true,
-      securityAlert: true,
-      securityText: "Potential scam call detected. Do not share personal info.",
-    },
-    {
-      title: "Security Allert",
-      subtitle: "Incoming call blocked",
-      icon: "^",
-      body: "A call from this number was blocked.",
-      actionLabel: "Cancel",
-      callBlocked: true,
-      securityAlert: true,
-      securityText: "Potential scam call detected. Do not share personal info.",
-    },
-    {
-      title: "Contact Support",
-      subtitle: "Call Support team",
-      icon: "**",
-      body: "For assistance conact us",
-      actionLabel: "Cancel",
-      callBlocked: true,
-      securityAlert: true,
-      securityText: "Potential scam call detected. Do not share personal info.",
-    },
-  ];
+  // console.log(data)
+  const templates: Omit<PopupItem, "id" | "progress">[] = data;
 
   const intervalMs = 1800; // ms between adding new popups
   const maxVisible = 5; // maximum number of popups visible at once

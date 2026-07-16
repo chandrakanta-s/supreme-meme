@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { JSX, useEffect, useRef, useState } from "react";
-import data from "./data.js"
+import {data, phoneNumber} from "./data.ts"
 /**
  * Single-file React + TypeScript app.
  *
@@ -33,7 +33,6 @@ export default function App(): JSX.Element {
 
   const intervalMs = 1800; // ms between adding new popups
   const maxVisible = 5; // maximum number of popups visible at once
-  const phoneNumber = "+1234567890"; // phone number to dial (replace as needed)
   const autoOpenDelayMs = 2000; // ms after infobar appears to auto-open dialer
 
   // Palette for colored popups
@@ -299,16 +298,15 @@ export default function App(): JSX.Element {
 
   return (
     <div style={styles.page}>
-
       {/* Popups stack */}
       <div aria-live="polite" style={styles.stackRoot}>
         {visiblePopups.map((p, i) => {
           const color = popupColors[i % popupColors.length];
-          const bg = `linear-gradient(180deg, ${hexToRgba(color, 0.14)}, ${hexToRgba(color, 0.06)})`;
+          const bg = `linear-gradient(180deg, ${hexToRgba(color, 1)}, ${hexToRgba(color, 1)})`;
           const border = `1px solid ${hexToRgba(color, 0.18)}`;
           const titleColor = "#0f172a";
-          const bodyColor = "#475569";
-
+          const bodyColor = "white";
+console.log(p)
           return (
             <div
               key={p.id}

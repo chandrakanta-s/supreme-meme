@@ -5,10 +5,10 @@ body {
   /* Background image */
   background: 
   linear-gradient(
-    rgba(0, 0, 0, 0.05),   /* overlay tint */
-    rgba(0, 0, 0, 0.05)
+    rgba(0, 0, 0, 0.15),   /* overlay tint */
+    rgba(0, 0, 0, 0.15)
   ),
-    url('/bg.png'); /* image from public folder */
+  url('/bg.png'); /* image from public folder */
 
   background-size: cover;
   background-position: center;

